@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classpad programming</title>
+	<meta name="description" content="Classpad programming">
+    <meta name="viewport" content="width=device-width">
+    <title>MathJax example</title>
+    <script>
+        MathJax = {
+            tex: { macros: {cis: "\\mathop{\\rm{cis}}\\nolimits"} },
+            chtml: { displayAlign: 'center', scale: 1.1 }
+        }
+    </script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script>
+    $(document).ready(function(){
+        $(".html-code").hide();
+    });
+</script>
+
+<!-- Warning: This page requires javascript to render the math. -->
+
+<!-- This is an example of a function. Functions are more restricted than programs - for example, we can't use any statements (If, For, WhileLp, etc.) or functions exclusive to the program environment<br>
+A function has a benefit over programs in that they return their value just like any other function. In a program, they return '<pre>done</pre>', but a function will return the result.<br>
+This means we don't need to use a PrintNatural to see the result or store the result in a fixed, unchanging variable defined in a program.<br><br> -->
+<body style="padding: 1%;">
+<center>
+    <h1>Functions guide</h1>
+</center>
+
+<a class="link" style="left:1%; top: 1%;" href="https://classpad.github.io">🔗 To classpad homepage</a><br>
+<a class="link" style="left:1%; top: 1%;" href="https://npc-strider.github.io/maths">🔗 To MATHS page</a><br>
+<a class="link" style="left:1%; top: 1%;" href="https://npc-strider.github.io">🔗 To personal homepage</a><br>
+<br>
+We define a new function with the <pre>Define</pre> command.<br>
+<pre>
+    Define f(x,y,z,[...]) = [Function(x,y,z,[...])]
+</pre>
+The result of <pre>Function</pre> is returned directly to the result line.
+
+<hr>
+<div style="text-align: center;"><b>Example function: <pre>cis(θ)</pre></b></div>
+<hr>
+Firstly, a simple example.<br>
+You could use classpad-defined functions, such as <pre>compToRect()</pre> to convert from polar to rectangular form.<br>
+Alternatively, you could use Euler's formula, \(z = r\cdot e^{i\theta}\), but this leaves an opportunity for error if you forget the \(i\). Additionally, this form isn't taught in WA and most questions use \(\cis\).<br><br>
+So let's define \(\cis\) with a function!
+<table class="code"><tbody>
+    <tr><td></td><td><pre class="lb">Define cis(x)=cos(x)+i*sin(x)</pre></td>
+</tbody></table><br>
+<div style="text-align: center;">
+    <img src="./assets/cis.png">
+</div>
+Now whenever we use <pre>cis</pre>, we call this function.<br><br>
+
+To make this function useful, we should add it as a shift key in the <pre>System</pre> tab. (you can add shift-keys for anything, even text which doesn't evaluate to a defined function.)
+<div style="text-align: center;">
+    <img src="./assets/cis_key.png">
+</div>
+
+<hr>
+<div style="text-align: center;"><b>Example function: De Moivre root finder</b></div>
+<hr>
+Let's find the roots of \(Z^5=32i\).<br>
+\begin{align}
+Z^5 &=32i\\
+&=32\cis\left(\frac{\pi}{2}\right)\\
+\implies Z_0&=\left[32\cis\left(\frac{\pi}{2}\right)\right]^{\frac{1}{5}}\\
+Z_0&= 2\cis\left(\frac{\pi}{10}\right)\\
+\implies Z_1 &= 2\cis\left(\frac{\pi}{10}+\frac{2\pi}{5}\right) = 2\cis\left(\frac{\pi}{2}\right)\\
+Z_2 &= 2\cis\left(\frac{\pi}{10}+2\cdot\frac{2\pi}{5}\right) = 2\cis\left(\frac{9\pi}{10}\right)\\
+Z_3 &= 2\cis\left(\frac{\pi}{10}-\frac{2\pi}{5}\right) = 2\cis\left(-\frac{3\pi}{10}\right)\\
+Z_4 &= 2\cis\left(\frac{\pi}{10}-2\cdot\frac{2\pi}{5}\right) = 2\cis\left(-\frac{7\pi}{10}\right)\\
+\end{align}
+This is a tedious task, with a lot of steps (adding for each power), which results in opportunity to make mistakes. This is a good opportunity/case to automate.<br>
+A function which does this tedious process automatically can help us verify if our working out is correct and will save time. (As always, we still need to show working for marks!)<br><br>
+
+This function, <pre>zroot</pre>, returns the De Moivre roots of some number, raised to the power <pre>p</pre>, equal to the complex number <pre>z</pre><div class="">
+\[Z^p = z\]
+Essentially, it returns the values of \(Z\), \(Z\in\mathbb{C} \).<br>
+More specifically, it returns a matrix containing these solutions in polar form on the left column and in rectangular form in the right column.<br><br>
+<div style="text-align: center;">
+    <img src="./assets/zsolve.png">
+</div>
+<hr>
+<table class="code"><tbody>
+    <tr><td></td><td><pre class="lb">Define zsolve(p,z)=augment(listToMat(M*augment(seq(Cis(θ+n),n,0,π,d),seq(Cis(θ+n),n,-d,-π,-d))),listToMat(M*augment(seq(e^(i(θ+n)),n,0,π,d),seq(e^(i(θ+n)),n,-d,-π,-d))))|{θ=arg(z^(1/p)),M=(re(z)^2+im(z)^2)^(1/(2p)),d=2π/p}</pre></td>
+</tbody></table><br>
+Okay, this looks very complicated. It's a mess of brackets and functions. Let's re-format it so it's more readable.
+<div style="text-align: center;">
+    <div class="html-code" style="display: inline-block; text-align: left">
+        <table class="code">
+            <tbody>
+                <tr><td></td><td><pre>Define zsolve(p,z)=augment(</pre></td>
+                <tr><td></td><td><pre>    listToMat(</pre></td>
+                <tr><td></td><td><pre>        M*augment(</pre></td>
+                <tr><td></td><td><pre>            seq(Cis(θ+n),n,0,π,d),</pre></td>
+                <tr><td></td><td><pre>            seq(Cis(θ+n),n,-d,-π,-d)</pre></td>
+                <tr><td></td><td><pre>        ),</pre></td>
+                <tr><td></td><td><pre>    ),</pre></td>
+                <tr><td></td><td><pre>    listToMat(</pre></td>
+                <tr><td></td><td><pre>        M*augment(</pre></td>
+                <tr><td></td><td><pre>            seq(e^(i(θ+n)),n,0,π,d),</pre></td>
+                <tr><td></td><td><pre>            seq(e^(i(θ+n)),n,-d,-π,-d)</pre></td>
+                <tr><td></td><td><pre>        )</pre></td>
+                <tr><td></td><td><pre>    )</pre></td>
+                <tr><td></td><td><pre>)|{</pre></td>
+                <tr><td></td><td><pre>    θ=arg(z^(1/p)),</pre></td>
+                <tr><td></td><td><pre>    M=(re(z)^2+im(z)^2)^(1/(2p)),</pre></td>
+                <tr><td></td><td><pre>    d=2π/p</pre></td>
+                <tr><td></td><td><pre>}</pre></td>
+            </tbody>
+        </table>
+    </div>
+    <br><iframe
+        class="carbon-code"
+        src="https://carbon.now.sh/embed/R3nkjHIiMBEjIinIyZde"
+        style="width: 680px; height: 398px; border:0; transform: scale(1); overflow:hidden;"
+        sandbox="allow-scripts allow-same-origin">
+    </iframe><br>
+    <input id="toggle-code" type="checkbox" data-on="Color view" data-off="HTML Table" checked data-toggle="toggle" data-height="25" data-width="140">
+    <script>
+        $(function() {
+            $('#toggle-code').change(function() {
+                $('.carbon-code').toggle();
+                $('.html-code').toggle();
+            });
+        });
+    </script>
+</div><br>
+If we take a look at the code line-by-line, it's actually easy to understand. It appears big because we're limited in what we can store in variables, so there's a lot of duplicated code. (In this instance, we can't store lists in variables using the "with" notation, so we need to repeat some code).<br>
+<a style="font-size:x-small;">*Sorry - I can't use highlight.js to make the code below colorful. The above image was generated by Carbon so I can't split it into a table.</a>
+<table class="code">
+    <thead>
+        <tr>
+            <th colspan="3", style="text-align:center">Function walkthrough</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td></td><td><pre>Define zsolve(p,z)=augment(</pre></td>            <td><pre class="comment">//Defines our custom command. augment() joins two arrays together (the polar and rectangular array columns)</pre></td></tr>
+        <tr><td></td><td><pre>    listToMat(</pre></td>                         <td><pre class="comment">//listToMat() converts a list (generated by seq()) to a matrix so it looks better.</pre></td></tr>
+        <tr><td></td><td><pre>        M*augment(</pre></td>                     <td><pre class="comment">//We multiply the list (below) by M, The magnitude of the zeroth solution. M is multiplied to all values in the augmented (joined) list. augment() concatenates two lists.</pre></td></tr>
+        <tr><td></td><td><pre>            seq(Cis(θ+n),n,0,π,d),</pre></td>     <td><pre class="comment">//seq() is a function which generates a list based on a sequence. For example, seq(x^2,x,0,6,2) => {0,4,16,36}. Here we generate a list of polar coordinates with angles from 0 to π, with a constant θ added to n, a number which is generated from the seq() function. We increment each step by d, a constant. Also note the capital 'Cis' - this prevents it from being evaluated into rectangular form if cis() is defined. Cis() must be undefined to display in this form.</pre></td></tr>
+        <tr><td></td><td><pre>            seq(Cis(θ+n),n,-d,-π,-d)</pre></td>   <td><pre class="comment">//Similar to the last line, except we increment by -d, starting at -d (to prevent a 'double up' of Cis(θ+0)) and counting to -π</pre></td></tr>
+        <tr><td></td><td><pre>        ),</pre></td>                             <td><pre class="comment">//Closing bracket for augment. We augment the sequence for positive angles and negative angles into one list.</pre></td></tr>
+        <tr><td></td><td><pre>    ),</pre></td>                                 <td><pre class="comment">//Closing bracket for listToMat</pre></td></tr>
+        <tr><td></td><td><pre>    listToMat(</pre></td>                         <td><pre class="comment">//We repeat the process again. This time, we generate the rectangular form column.</pre></td></tr>
+        <tr><td></td><td><pre>        M*augment(</pre></td>                     <td><pre class="comment"></pre></td></tr>
+        <tr><td></td><td><pre>            seq(e^(i(θ+n)),n,0,π,d),</pre></td>   <td><pre class="comment">//Notice how we do not use Cis(), but Euler's formula to evaluate. We can use cis(θ+n) or cos(θ+n)+i*sin(θ+n), but Euler's formula is compact and always works (unlike cis() which might not be defined)</pre></td></tr>
+        <tr><td></td><td><pre>            seq(e^(i(θ+n)),n,-d,-π,-d)</pre></td> <td><pre class="comment"></pre></td></tr>
+        <tr><td></td><td><pre>        )</pre></td>                              <td><pre class="comment"></pre></td></tr>
+        <tr><td></td><td><pre>    )</pre></td>                                  <td><pre class="comment"></pre></td></tr>
+        <tr><td></td><td><pre>)|{</pre></td>                                    <td><pre class="comment">//This pipe or bar character is documented as the "with" operator. For example, (2x)|{x=5} evaluates to 10. We store constants within the curly braces to make things neater to represent.</pre></td></tr>
+        <tr><td></td><td><pre>    θ=arg(z^(1/p)),</pre></td>                    <td><pre class="comment">//This gets the phase of the zeroth solution. The zeroth solution is always the pth root of z.</pre></td></tr>
+        <tr><td></td><td><pre>    M=(re(z)^2+im(z)^2)^(1/(2p)),</pre></td>      <td><pre class="comment">//This is the magnitude. Simple stuff, we multiply the half by 1/p to skip a step (because the root is z^(1/p) => M^(1/p))</pre></td></tr>
+        <tr><td></td><td><pre>    d=2π/p</pre></td>                             <td><pre class="comment">//This is our angle difference. Remember - you need to state this for one mark.</pre></td></tr>
+        <tr><td></td><td><pre>}</pre></td>                                      <td><pre class="comment">//Don't forget to close your brackets!    tada!</pre></td></tr>
+    </tbody>
+</table><br>
+<center>
+    For complex applications, a function isn't suitable. We need to use a <b>program</b><br>
+    When I develop a guide for programs (If I get around to it), the link will be here!
+</center>
+
+<a class="link" style="left:1%; top: 1%;" href="https://classpad.github.io">🔗 To classpad homepage</a><br>
+<a class="link" style="left:1%; top: 1%;" href="https://npc-strider.github.io/maths">🔗 To MATHS page</a><br>
+<a class="link" style="left:1%; top: 1%;" href="https://npc-strider.github.io">🔗 To personal homepage</a><br>
+
+</body>
+</html>
